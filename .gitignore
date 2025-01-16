@@ -1,4 +1,6 @@
 .venv
 *.pyc
-.nvim/workspace.vim
+
+workspace.vim
+breakpoints.json
 

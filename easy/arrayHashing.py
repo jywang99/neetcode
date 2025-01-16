@@ -49,3 +49,14 @@ class GroupAnagrams:
         
         return list(anas.values())
 
+
+class TopKFrequent:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        n_freq: dict[int, int] = defaultdict(int)
+        for n in nums:
+            n_freq[n] += 1
+
+        freq_tups = list(n_freq.items())
+        freq_tups = sorted(freq_tups, key = lambda tup : tup[1], reverse=True)
+        return list(map(lambda tup : tup[0], freq_tups[:k]))
+
