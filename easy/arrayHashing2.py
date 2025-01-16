@@ -28,12 +28,12 @@ class IsAnagram:
         return True
 
 
-class Solution:
+class TwoSum:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        waitlist = {}
+        rs = {}
         for i, n in enumerate(nums):
-            if n in waitlist:
-                return [waitlist[n], i]
-            waitlist[target - n] = i
+            if n in rs:
+                return [i, rs[n]]
+            rs[target - n] = i
         raise Exception('WTF')
 

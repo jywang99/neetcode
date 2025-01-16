@@ -27,3 +27,25 @@ class IsAnagram:
 
         return len(lcnt) == 0
 
+
+class TwoSum:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        waitlist = {}
+        for i, n in enumerate(nums):
+            if n in waitlist:
+                return [waitlist[n], i]
+            waitlist[target - n] = i
+        raise Exception('WTF')
+
+
+class GroupAnagrams:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        if len(strs) <= 1:
+            return [strs]
+
+        anas = defaultdict(list)
+        for s in strs:
+            anas[''.join(sorted(s))].append(s)
+        
+        return list(anas.values())
+
