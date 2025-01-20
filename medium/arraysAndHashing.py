@@ -96,3 +96,20 @@ class IsValidSudoku:
 
         return True
 
+
+class LongestConsecutive:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        nset = set(nums)
+        cnt = 0
+
+        for n in nset:
+            if (n-1) in nset:
+                continue
+
+            slen = 1
+            while (n + slen) in nset:
+                slen += 1
+            cnt = max(cnt, slen)
+
+        return cnt
+
