@@ -37,3 +37,19 @@ class TwoSum:
             rs[target - n] = i
         raise Exception('WTF')
 
+
+class LongestConsecutive:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        nset = set(nums)
+        ml = 0
+
+        for n in nset:
+            if (n-1) in nset:
+                continue
+            l = 0
+            while (n+l) in nset:
+                l +=1
+            ml = max(l, ml)
+
+        return ml
+

@@ -24,6 +24,7 @@ class IsValidSudoku:
                 if n in ns:
                     return False
                 ns.add(n)
+        return True
 
 
     def isValidSudoku(self, board: List[List[str]]) -> bool:

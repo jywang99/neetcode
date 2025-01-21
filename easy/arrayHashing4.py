@@ -21,3 +21,13 @@ class IsAnagram:
             if v > 0: return False
         return True
 
+
+class TwoSum:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        rs = {}
+        for i, n in enumerate(nums):
+            if n in rs:
+                return [ rs[n], i ]
+            rs[target - n] = i
+        raise Exception('WTF')
+
