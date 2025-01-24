@@ -31,11 +31,3 @@ class TwoSum:
             rs[target - n] = i
         raise Exception('WTF')
 
-
-class GroupAnagrams:
-    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        anas = defaultdict(list)
-        for s in strs:
-            anas[''.join(sorted(s))].append(s)
-        return list(anas.values())
-

@@ -47,3 +47,17 @@ class ProductExceptSelf:
 
         return rs
 
+
+class LongestConsecutive:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        nset = set(nums)
+        mlen = 0
+        for n in nset:
+            if n-1 in nset:
+                continue
+            l = 1
+            while n+l in nset:
+                l += 1
+            mlen = max(mlen, l)
+        return mlen
+
