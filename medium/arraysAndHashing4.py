@@ -35,3 +35,33 @@ class TopKFrequent:
         ftups = sorted(nfreq.items(), key = lambda kvp : kvp[1], reverse = True)
         return list(map(lambda kvp : kvp[0], ftups[:k]))
 
+
+class IsValidSudoku:
+    def isRangeValid(self, board: List[List[str]], sx: int, tx: int, sy: int, ty: int):
+        seen = set()
+        for x in range(sx, tx):
+            for y in range(sy, ty):
+                v = board[y][x]
+                if v == ".": continue
+                if v in seen:
+                    return False
+                seen.add(v)
+        return True
+
+
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        for y in range(len(board)):
+            if not self.isRangeValid(board, 0, 9, y, y+1):
+                return False
+
+        for x in range(len(board)):
+            if not self.isRangeValid(board, x, x+1, 0, 9):
+                return False
+
+        for x in range(1, 9, 3):
+            for y in range(1, 9, 3):
+                if not self.isRangeValid(board, x-1, x+2, y-1, y+2):
+                    return False
+
+        return True
+
