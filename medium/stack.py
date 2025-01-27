@@ -49,3 +49,26 @@ class EvalRPN:
         
         return stk[0]
 
+
+class GenerateParenthesis:
+    def generateParenthesis(self, n: int) -> List[str]:
+        rs = []
+        stk = []
+
+        def backtrack(opens: int, closes: int):
+            if opens == closes == n:
+                rs.append("".join(stk))
+                return
+
+            if opens < n:
+                stk.append("(")
+                backtrack(opens+1, closes)
+                stk.pop()
+            if closes < opens:
+                stk.append(")")
+                backtrack(opens, closes+1)
+                stk.pop()
+
+        backtrack(0, 0)
+        return rs
+
