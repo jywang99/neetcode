@@ -10,12 +10,12 @@ class MinStack:
 
     def push(self, val: int) -> None:
         self.stk.append(val)
-        self.mins.append(min(val, self.mins[-1]) if self.mins else val)
-
+        self.mins.append(min(self.mins[-1], val) if self.mins else val)
+        
 
     def pop(self) -> None:
+        self.stk = self.stk[:-1]
         self.mins = self.mins[:-1]
-        return self.stk.pop()
         
 
     def top(self) -> int:
@@ -27,25 +27,21 @@ class MinStack:
 
 
 class EvalRPN:
-    OPS = ["+", "-", "*", "/"]
-
-
     def evalRPN(self, tokens: List[str]) -> int:
-        stk = []
+        ns: list[int] = []
         for t in tokens:
             match t:
                 case "+":
-                    stk.append(stk.pop() + stk.pop())
+                    ns.append(ns.pop() + ns.pop())
                 case "-":
-                    x, y = stk.pop(), stk.pop()
-                    stk.append(y - x)
+                    y, x = ns.pop(), ns.pop()
+                    ns.append(x - y)
                 case "*":
-                    stk.append((stk.pop()) * stk.pop())
+                    ns.append(ns.pop() * ns.pop())
                 case "/":
-                    x, y = stk.pop(), stk.pop()
-                    stk.append(int(float(y) / x))
+                    y, x = ns.pop(), ns.pop()
+                    ns.append(int(x / y))
                 case _:
-                    stk.append(int(t))
-        
-        return stk[0]
+                    ns.append(int(t))
+        return ns[0]
 

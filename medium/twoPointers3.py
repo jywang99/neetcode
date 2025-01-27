@@ -43,3 +43,20 @@ class ThreeSum:
 
         return rs
 
+
+class MaxArea:
+    def maxArea(self, height: List[int]) -> int:
+        marea = 0
+
+        l, r = 0, len(height)-1
+        while l < r:
+            hl, hr = height[l], height[r]
+            area = min(hl, hr) * (r - l)
+            marea = max(marea, area)
+            if hl < hr:
+                l += 1
+            else:
+                r -= 1
+        
+        return marea
+
