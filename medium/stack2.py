@@ -6,21 +6,17 @@ class MinStack:
     def __init__(self):
         self.stk = []
         self.mins = []
-        
 
     def push(self, val: int) -> None:
         self.stk.append(val)
         self.mins.append(min(self.mins[-1], val) if self.mins else val)
-        
 
     def pop(self) -> None:
         self.stk = self.stk[:-1]
         self.mins = self.mins[:-1]
-        
 
     def top(self) -> int:
         return self.stk[-1]
-        
 
     def getMin(self) -> int:
         return self.mins[-1]
@@ -45,3 +41,27 @@ class EvalRPN:
                     ns.append(int(t))
         return ns[0]
 
+
+class GenerateParenthesis:
+    def generateParenthesis(self, n: int) -> List[str]:
+        rs: list[str] = []
+        stk: list[str] = []
+
+        def recurse(opens: int, closes: int):
+            if opens == closes == n:
+                rs.append("".join(stk))
+                return
+
+            if opens < n:
+                stk.append("(")
+                recurse(opens+1, closes)
+                stk.pop()
+
+            if closes < opens:
+                stk.append(")")
+                recurse(opens, closes+1)
+                stk.pop()
+
+        recurse(0, 0)
+
+        return rs

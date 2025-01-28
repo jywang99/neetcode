@@ -72,3 +72,32 @@ class GenerateParenthesis:
         backtrack(0, 0)
         return rs
 
+
+class DailyTemperatures:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        rs = [0] * len(temperatures)
+        stk: list[int] = []
+        
+        for i, t in enumerate(temperatures):
+            while stk:
+                if temperatures[stk[-1]] >= t:
+                    break
+                li = stk.pop()
+                rs[li] = i - li
+            stk.append(i)
+
+        return rs
+
+
+class CarFleet:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        cars = [(p, s) for p, s in zip(position, speed)]
+        cars.sort(reverse=True)
+        stk = []
+        for p, s in cars:
+            t = (target - p) / s
+            if stk and stk[-1] >= t:
+                continue
+            stk.append(t)
+        return len(stk)
+
