@@ -1,3 +1,6 @@
+from typing import List
+
+
 class IsValid:
     PAIRS = { "{": "}", "(": ")", "[": "]" }
 
@@ -38,4 +41,26 @@ class MinStack:
 
     def getMin(self) -> int:
         return self.mins[-1]
+
+
+class GenerateParenthesis:
+    def generateParenthesis(self, n: int) -> List[str]:
+        rs = []
+        stk = []
+
+        def recurse(opens: int, closes: int):
+            if opens == closes == n:
+                rs.append("".join(stk))
+
+            if opens < n:
+                stk.append("(")
+                recurse(opens+1, closes)
+                stk.pop()
+            if closes < opens:
+                stk.append(")")
+                recurse(opens, closes+1)
+                stk.pop()
+        
+        recurse(0, 0)
+        return rs
 
