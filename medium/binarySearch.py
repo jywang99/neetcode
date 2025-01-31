@@ -1,4 +1,5 @@
 from typing import List
+import math
 
 
 class SearchMatrix:
@@ -28,4 +29,34 @@ class SearchMatrix:
             return recRow(m+1, t)
 
         return recRow(0, len(row)-1) != -1
+
+
+class MinEatingSpeed:
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        l, r = 1, max(piles)
+        record = r
+
+        while l <= r:
+            m = l + (r - l) // 2
+
+            time = sum(map(lambda p: math.ceil(p / m), piles))
+            if time <= h:
+                record = m
+                r = m - 1
+            else:
+                l = m + 1
+
+        return record
+
+
+class FindMin:
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums)-1
+        while l < r:
+            m = l + (r - l) // 2
+            if nums[m] < nums[r]:
+                r = m
+            else:
+                l = m + 1
+        return nums[l]
 
