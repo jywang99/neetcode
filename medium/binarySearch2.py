@@ -1,3 +1,4 @@
+import math
 from typing import List
 
 
@@ -31,4 +32,39 @@ class SearchMatrix:
             return recRow(m+1, t)
 
         return recRow(0, len(row)-1)
+
+
+class MinEatingSpeed:
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        l, r = 1, max(piles)
+        rk = r
+
+        while l <= r:
+            k = l + (r - l) // 2
+            kh = 0
+            for p in piles:
+                kh += math.ceil(p / k)
+
+            if kh > h:
+                l = k + 1
+            else:
+                rk = k
+                r = k - 1
+
+        return rk
+
+
+class FindMinRotated:
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums)-1
+        while l <= r:
+            if nums[l] <= nums[r]:
+                return nums[l]
+
+            m = l + (r - l) // 2
+            if nums[m] < nums[l]:
+                r = m
+            else:
+                l = m + 1
+        raise Exception("WTF")
 

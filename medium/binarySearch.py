@@ -1,4 +1,5 @@
-from typing import List
+from collections import defaultdict
+from typing import List, Tuple
 import math
 
 
@@ -49,7 +50,7 @@ class MinEatingSpeed:
         return record
 
 
-class FindMin:
+class FindMinRotated:
     def findMin(self, nums: List[int]) -> int:
         l, r = 0, len(nums)-1
         while l < r:
@@ -59,4 +60,29 @@ class FindMin:
             else:
                 l = m + 1
         return nums[l]
+
+
+class TimeMap:
+    def __init__(self):
+        self.records: dict[str, List[Tuple[int, str]]] = defaultdict(list)
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.records[key].append(( timestamp, value ))
+
+    def get(self, key: str, timestamp: int) -> str:
+        if key not in self.records:
+            return ""
+        entries = self.records[key]
+
+        rs = ""
+        l, r = 0, len(entries)-1
+        while l <= r:
+            m = l + (r - l) // 2
+            if entries[m][0] <= timestamp:
+                rs = entries[m][1]
+                l = m + 1
+            else:
+                r = m - 1
+
+        return rs
 
