@@ -1,5 +1,6 @@
 import math
 from typing import List
+from collections import defaultdict
 
 
 class SearchMatrix:
@@ -67,4 +68,29 @@ class FindMinRotated:
             else:
                 l = m + 1
         raise Exception("WTF")
+
+
+class TimeMap:
+    def __init__(self):
+        self.map: dict[str, list[tuple[int, str]]] = defaultdict(list)
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.map[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        if key not in self.map:
+            return ""
+
+        recs = self.map[key]
+        l, r = 0, len(recs)-1
+        rs = ""
+        while l <= r:
+            m = l + (r - l) // 2
+            if recs[m][0] <= timestamp:
+                rs = recs[m][1]
+                l = m + 1
+            else:
+                r = m - 1
+        
+        return rs
 
