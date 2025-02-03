@@ -71,3 +71,34 @@ class GenerateParenthesis:
         recurse(0, 0)
         return rs
 
+
+class DailyTemperatures:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        stk = []
+        rs = [0] * len(temperatures)
+
+        for i, t in enumerate(temperatures):
+            while stk:
+                if temperatures[stk[-1]] >= t:
+                    break
+                pi = stk.pop()
+                rs[pi] = i - pi
+            stk.append(i)
+
+        return rs
+
+
+class CarFleet:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        nears = [i for i in range(len(position))]
+        nears.sort(key=lambda i: position[i], reverse=True)
+        flts = 0
+        lt = 0
+        for i in nears:
+            time = (target - position[i]) / speed[i]
+            if time <= lt:
+                continue
+            flts += 1
+            lt = time
+        return flts
+
