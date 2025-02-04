@@ -1,3 +1,4 @@
+from collections import defaultdict
 import math
 from typing import List
 
@@ -61,6 +62,31 @@ class Koko:
                 r = m - 1
             else:
                 l = m + 1
+
+        return rs
+
+
+class TimeMap:
+    def __init__(self):
+        self.data: dict[str, list[tuple[int, str]]] = defaultdict(list)
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.data[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        if key not in self.data:
+            return ""
+        recs = self.data[key]
+
+        rs = ""
+        l, r = 0, len(recs)-1
+        while l <= r:
+            m = l + (r - l) // 2
+            if recs[m][0] <= timestamp:
+                rs = recs[m][1]
+                l = m + 1
+            else:
+                r = m - 1
 
         return rs
 
