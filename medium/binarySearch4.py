@@ -1,4 +1,5 @@
 from typing import List
+import math
 
 
 class BianrySearch:
@@ -28,6 +29,7 @@ class BianrySearch:
                 r = m - 1
         return -1
 
+
 class SearchMatrix:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         l, r = 0, len(matrix)-1
@@ -56,4 +58,37 @@ class SearchMatrix:
                 l = m + 1
 
         return False
+
+
+class FindMinRotated:
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums)-1
+        while l <= r:
+            if nums[l] <= nums[r]:
+                return nums[l]
+            m = l + (r - l) // 2
+            if nums[m] < nums[l]:
+                r = m
+            else:
+                l = m + 1
+        raise Exception("WTF")
+
+
+class Koko:
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        l, r = 1, max(piles)
+        mk = r
+
+        while l <= r:
+            k = l + (r - l) // 2
+            kh = 0
+            for p in piles:
+                kh += math.ceil(p / k)
+            if kh > h:
+                l = k + 1
+            else:
+                mk = k
+                r = k - 1
+
+        return mk
 
