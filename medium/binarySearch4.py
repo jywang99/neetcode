@@ -1,5 +1,6 @@
 from typing import List
 import math
+from collections import defaultdict
 
 
 class BianrySearch:
@@ -91,4 +92,28 @@ class Koko:
                 r = k - 1
 
         return mk
+
+
+class TimeMap:
+    def __init__(self):
+        self.data: dict[str, list[tuple[int, str]]] = defaultdict(list)
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.data[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        recs = self.data.get(key)
+        if not recs:
+            return ""
+
+        l, r = 0, len(recs)-1
+        rs = ""
+        while l <= r:
+            m = l + (r - l) // 2
+            if recs[m][0] <= timestamp:
+                rs = recs[m][1]
+                l = m + 1
+            else:
+                r = m - 1
+        return rs
 
