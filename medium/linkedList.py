@@ -1,5 +1,6 @@
 from typing import Optional
 from collections import defaultdict
+import math
 
 
 class ListNode:
@@ -79,4 +80,30 @@ class CopyRandomList:
             cur = cur.next
 
         return doppel[head]
+
+
+class AddTwoNumbers:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        carry = False
+        dummy = n = ListNode()
+        while l1 and l2:
+            digit = (1 if carry else 0) + l1.val + l2.val
+            carry = math.floor(digit / 10) == 1
+            n.next = ListNode(digit % 10)
+            n = n.next
+            l1 = l1.next
+            l2 = l2.next
+
+        extra = l1 or l2
+        while extra:
+            digit = (1 if carry else 0) + extra.val
+            carry = math.floor(digit / 10) == 1
+            n.next = ListNode(digit % 10)
+            n = n.next
+            extra = extra.next
+
+        if carry:
+            n.next = ListNode(1)
+
+        return dummy.next
 
