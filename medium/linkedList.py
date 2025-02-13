@@ -1,4 +1,5 @@
 from typing import Optional
+from collections import defaultdict
 
 
 class ListNode:
@@ -66,6 +67,16 @@ class Node:
 
 
 class CopyRandomList:
-    def copyRandomList(self, head: Optional[Node]) -> Optional[Node]:
+    def copyRandomList(self, head: "Optional[Node]") -> "Optional[Node]":
+        doppel: dict[Node|None, Node|None] = defaultdict(lambda: Node(0))
+        doppel[None] = None
 
+        cur = head
+        while cur:
+            doppel[cur].val = cur.val
+            doppel[cur].next = doppel[cur.next]
+            doppel[cur].random = doppel[cur.random]
+            cur = cur.next
+
+        return doppel[head]
 
