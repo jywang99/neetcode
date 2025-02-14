@@ -39,3 +39,19 @@ class ReorderList:
             n = n.next
         n.next = l1 or l2
 
+
+class RemoveNthFromEnd:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        l, r = ListNode(next=head), head
+        dummy = l
+
+        for _ in range(n):
+            r = r.next
+
+        while r:
+            l = l.next
+            r = r.next
+
+        l.next = l.next.next
+        return dummy.next
+

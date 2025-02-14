@@ -77,3 +77,29 @@ class CopyRandomList:
             n = n.next
         return doppel[head]
 
+
+class AddTwoNumbers:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        carry = 0
+        dummy = n = ListNode()
+        while l1 and l2:
+            s = l1.val + l2.val + carry
+            carry = 1 if s >= 10 else 0
+            n.next = ListNode(s % 10)
+            n = n.next
+            l1 = l1.next
+            l2 = l2.next
+
+        e = l1 or l2
+        while e:
+            s = e.val + carry
+            carry = 1 if s >= 10 else 0
+            n.next = ListNode(s % 10)
+            n = n.next
+            e = e.next
+
+        if carry > 0:
+            n.next = ListNode(1)
+        
+        return dummy.next
+
