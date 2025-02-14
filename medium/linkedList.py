@@ -119,8 +119,8 @@ class FindDuplicate:
 
         s2 = 0
         while True:
-            s += 1
-            s2 += 1
+            s = nums[s]
+            s2 = nums[s2]
             if s == s2:
                 return s
 
