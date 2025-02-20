@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Optional
+from typing import List, Optional
 
 
 class ListNode:
@@ -102,4 +102,21 @@ class AddTwoNumbers:
             n.next = ListNode(1)
         
         return dummy.next
+
+
+class FindDuplicate:
+    def findDuplicate(self, nums: List[int]) -> int:
+        s, f = 0, 0
+        while True:
+            s = nums[s]
+            f = nums[nums[f]]
+            if s == f:
+                break
+        
+        b = 0
+        while True:
+            if nums[s] == nums[b]:
+                return nums[s]
+            s = nums[s]
+            b = nums[b]
 

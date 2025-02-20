@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Optional
 
 
@@ -54,4 +55,24 @@ class RemoveNthFromEnd:
 
         l.next = l.next.next
         return dummy.next
+
+
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+
+
+class CopyRandomList:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        nmap = defaultdict(lambda: Node(0))
+        nmap[None] = None
+        n = head
+        while n:
+            nmap[n].val = n.val
+            nmap[n].next = nmap[n.next]
+            nmap[n].random = nmap[n.random]
+            n = n.next
+        return nmap[head]
 

@@ -124,3 +124,49 @@ class FindDuplicate:
             if s == s2:
                 return s
 
+
+class CacheNode:
+    def __init__(self, key: int, val: int) -> None:
+        self.key, self.val = key, val
+        self.left, self.right = None, None
+
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.cap = capacity
+        self.cache: dict[int, CacheNode] = {}
+        self.left, self.right = CacheNode(0, 0), CacheNode(0, 0)
+        self.left.right = self.right
+        self.right.left = self.left
+
+    def insert(self, node: CacheNode):
+        left, right = self.right.left, self.right
+        node.left, node.right = left, right
+        left.right, right.left = node, node
+
+    def remove(self, node: CacheNode):
+        left, right = node.left, node.right
+        left.right = right
+        right.left = left
+
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1
+        n = self.cache[key]
+        self.remove(n)
+        self.insert(n)
+        return n.val
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self.remove(self.cache[key])
+
+        n = CacheNode(key, value)
+        self.cache[key] = n
+        self.insert(n)
+
+        if len(self.cache) > self.cap:
+            lru = self.left.right
+            self.remove(self.left.right)
+            del self.cache[lru.key]
+
