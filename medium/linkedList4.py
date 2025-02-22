@@ -2,9 +2,9 @@ from typing import Optional
 
 
 class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+    def __init__(self, val: int = 0, next: 'ListNode|None' = None):
+        self.val = val
+        self.next = next
 
 
 class HasCycle:
@@ -49,5 +49,20 @@ class ReorderList:
             n = n.next
             c1 = not c1
 
+        return dummy.next
+
+
+class RemoveNthFromEnd:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        l, r = ListNode(next=head), head
+        dummy = l
+        for _ in range(n):
+            r = r.next
+
+        while r:
+            l = l.next
+            r = r.next
+
+        l.next = l.next.next
         return dummy.next
 

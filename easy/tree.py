@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple
 
 
 class TreeNode:
@@ -54,4 +54,19 @@ class DiameterOfBinaryTree:
         
         recurse(root)
         return dia
+
+
+class BalancedTree:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        def recurse(n: Optional[TreeNode]) -> Tuple[bool, int]:
+            if not n:
+                return True, 0
+            
+            lb, ld = recurse(n.left)
+            rb, rd = recurse(n.right)
+            balanced = lb and rb and abs(rd - ld) <= 1
+
+            return balanced, max(ld, rd) + 1
+
+        return recurse(root)[0]
 
