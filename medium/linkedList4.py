@@ -1,4 +1,5 @@
 from typing import Optional
+from collections import defaultdict
 
 
 class ListNode:
@@ -65,4 +66,26 @@ class RemoveNthFromEnd:
 
         l.next = l.next.next
         return dummy.next
+
+
+class Node:
+    def __init__(self, x: int, next: 'Node|None' = None, random: 'Node|None' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+
+
+class CopyRandomList:
+    def copyRandomList(self, head: "Optional[Node]") -> "Optional[Node]":
+        doppel = defaultdict(lambda: Node(0))
+        doppel[None] = None
+
+        n = head
+        while n:
+            doppel[n].val = n.val
+            doppel[n].next = doppel[n.next]
+            doppel[n].random = doppel[n.random]
+            n = n.next
+
+        return doppel[head]
 
