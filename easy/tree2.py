@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple
 
 
 class TreeNode:
@@ -42,4 +42,19 @@ class MaxDepth:
             return 0
 
         return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+
+class IsBalanced:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        def recurse(n: Optional[TreeNode]) -> Tuple[bool, int]:
+            if not n:
+                return True, 0
+
+            lb, ld = recurse(n.left)
+            rb, rd = recurse(n.right)
+            bal = lb and rb and abs(ld - rd) <= 1
+
+            return bal, 1 + max(ld, rd)
+
+        return recurse(root)[0]
 
