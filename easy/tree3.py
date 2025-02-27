@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple
 
 
 class TreeNode:
@@ -40,4 +40,19 @@ class InvertTree:
             return
         root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
         return root
+
+
+class BalancedTree:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        def recurse(n: Optional[TreeNode]) -> Tuple[int, bool]:
+            if not n:
+                return 0, True
+
+            ld, lb = recurse(n.left)
+            rd, rb = recurse(n.right)
+
+            bal = lb and rb and abs(ld - rd) <= 1
+            return 1 + max(ld, rd), bal
+
+        return recurse(root)[1]
 

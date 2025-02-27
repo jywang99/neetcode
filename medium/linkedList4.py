@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from collections import defaultdict
 
 
@@ -103,4 +103,21 @@ class AddTwoNumbers:
             n = n.next
             l1, l2 = l1.next if l1 else None, l2.next if l2 else None
         return dummy.next
+
+
+class FindDuplicate:
+    def findDuplicate(self, nums: List[int]) -> int:
+        s, f = 0, 0
+        while True:
+            s = nums[s]
+            f = nums[nums[f]]
+            if s == f:
+                break
+
+        s2 = 0
+        while s != s2:
+            s = nums[s]
+            s2 = nums[s2]
+
+        return s
 
