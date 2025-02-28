@@ -52,3 +52,23 @@ class RightSideView:
         recurse(root, 0)
         return rs
 
+
+class GoodNodes:
+    def goodNodes(self, root: TreeNode) -> int:
+        cnt = 0
+
+        def recurse(n: Optional[TreeNode], msf: float):
+            if not n:
+                return
+
+            if msf <= n.val:
+                nonlocal cnt
+                cnt += 1
+                msf = n.val
+
+            recurse(n.left, msf)
+            recurse(n.right, msf)
+
+        recurse(root, -float('inf'))
+        return cnt
+
