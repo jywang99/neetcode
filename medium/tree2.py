@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -13,3 +16,21 @@ class LowestCommonAncestor:
             return self.lowestCommonAncestor(root.right, p, q)
         return root
 
+
+class LevelOrder:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        rs = []
+
+        def recurse(n: Optional[TreeNode], depth: int):
+            if not n:
+                return
+            if depth == len(rs):
+                rs.append([])
+
+            rs[depth].append(n.val)
+            recurse(n.left, depth+1)
+            recurse(n.right, depth+1)
+
+        recurse(root, 0)
+        return rs
+        
