@@ -22,5 +22,6 @@ class LevelOrder:
             recurse(n.left, depth + 1)
             recurse(n.right, depth + 1)
 
-
+        recurse(root, 0)
+        return rs
 
