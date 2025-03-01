@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 
 class TreeNode:
@@ -71,4 +71,57 @@ class GoodNodes:
 
         recurse(root, -float('inf'))
         return cnt
+
+
+class ValidBST:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def recurse(n: Optional[TreeNode], lower: float, upper: float) -> bool:
+            if not n:
+                return True
+            if not (lower < n.val < upper):
+                return False
+
+            return recurse(n.left, lower, n.val) and recurse(n.right, n.val, upper)
+
+        return recurse(root, -float("inf"), float("inf"))
+
+
+class KthSmallest:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        rs = None
+        cnt = k
+
+        def recurse(n: Optional[TreeNode]):
+            nonlocal rs, cnt
+
+            if not n:
+                return
+
+            recurse(n.left)
+            cnt -= 1
+            if cnt == 0:
+                rs = n.val
+                return
+            recurse(n.right)
+
+        recurse(root)
+        return rs
+
+
+class KthSmallestIter:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        stk = []
+        cur = root
+
+        while stk or cur:
+            while cur:
+                stk.append(cur)
+                cur = cur.left
+            cur = stk.pop()
+
+            k -= 1
+            if k == 0:
+                return cur.val
+
+            cur = cur.right
 
