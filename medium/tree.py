@@ -125,3 +125,24 @@ class KthSmallestIter:
 
             cur = cur.right
 
+
+class BuildTree:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        indict = { val: key for key, val in enumerate(inorder) }
+        pi = 0
+
+        def recurse(l: int, r: int) -> Optional[TreeNode]:
+            nonlocal pi
+            if l > r:
+                return None
+
+            val = preorder[pi]
+            pi += 1
+            n = TreeNode(val)
+            m = indict[val]
+            n.left = recurse(l, m-1)
+            n.right = recurse(m+1, r)
+            return n
+        
+        return recurse(0, len(inorder)-1)
+
