@@ -45,3 +45,29 @@ class RightSideView:
         recurse(root, 0)
         return rs
 
+class GoodNodes:
+    def goodNodes(self, root: TreeNode) -> int:
+        def recurse(n: Optional[TreeNode], msf: float) -> int:
+            if not n:
+                return 0
+
+            g = 0
+            if n.val >= msf:
+                g = 1
+                msf = n.val
+            lg = recurse(n.left, msf)
+            rg = recurse(n.right, msf)
+
+            return g + lg + rg
+
+        return recurse(root, -float("inf"))
+
+
+class LowestCommonAncestor:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if max(p.val, q.val) < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        if min(p.val, q.val) > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        return root
+
