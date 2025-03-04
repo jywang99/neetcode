@@ -71,3 +71,33 @@ class LowestCommonAncestor:
             return self.lowestCommonAncestor(root.right, p, q)
         return root
 
+
+class KthSmallest:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        stk = []
+        n = root
+
+        while True:
+            while n:
+                stk.append(n)
+                n = n.left
+
+            n = stk.pop()
+            k -= 1
+            if k == 0:
+                return n.val
+
+            n = n.right
+
+
+class ValidBST:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def recurse(n: Optional[TreeNode], lower: float, upper: float) -> bool:
+            if not n:
+                return True
+            if not (lower < n.val < upper):
+                return False
+            return recurse(n.left, lower, n.val) and recurse(n.right, n.val, upper)
+        
+        return recurse(root, -float("inf"), float("inf"))
+
