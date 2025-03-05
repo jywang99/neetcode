@@ -16,3 +16,6 @@ class Subsets:
             subset.pop()
             recurse(i+1)
         
+        recurse(0)
+        return rs
+        
