@@ -26,3 +26,21 @@ class LevelOrder:
         recurse(root, 0)
         return rs
 
+
+class RightSideView:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        rs = []
+        
+        def recurse(n: Optional[TreeNode], depth: int):
+            if not n:
+                return
+
+            if len(rs) == depth:
+                rs.append(n.val)
+
+            recurse(n.right, depth+1)
+            recurse(n.left, depth+1)
+
+        recurse(root, 0)
+        return rs
+
