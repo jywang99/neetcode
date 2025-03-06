@@ -37,3 +37,6 @@ class CombinationSum:
             cur.pop()
             recurse(i+1, total)
 
+        recurse(0, 0)
+        return rs
+
