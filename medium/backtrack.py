@@ -19,3 +19,21 @@ class Subsets:
         recurse(0)
         return rs
         
+
+class CombinationSum:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        rs = []
+        cur = []
+
+        def recurse(i: int, total: int):
+            if total == target:
+                rs.append(cur.copy())
+                return
+            if i == len(candidates) or total > target:
+                return
+
+            cur.append(candidates[i])
+            recurse(i, total + candidates[i])
+            cur.pop()
+            recurse(i+1, total)
+
