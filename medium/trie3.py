@@ -34,3 +34,40 @@ class Trie:
     def startsWith(self, prefix: str) -> bool:
         return self.__getLastNode(prefix) is not None
 
+
+class WordNode:
+    def __init__(self) -> None:
+        self.children: dict[str, WordNode] = {}
+        self.end = False
+
+
+class WordDictionary:
+    def __init__(self):
+        self.root = WordNode()
+
+    def addWord(self, word: str) -> None:
+        n = self.root
+        for c in word:
+            if c not in n.children:
+                n.children[c] = WordNode()
+            n = n.children[c]
+        n.end = True
+
+    def search(self, word: str) -> bool:
+        def recurse(n: Optional[WordNode], i: int) -> bool:
+            if not n:
+                return False
+            if i == len(word):
+                return n is not None and n.end
+
+            c = word[i]
+            if c == ".":
+                for nn in n.children.values():
+                    if recurse(nn, i+1):
+                        return True
+                return False
+            
+            return recurse(n.children.get(c), i+1)
+
+        return recurse(self.root, 0)
+
