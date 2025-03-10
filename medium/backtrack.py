@@ -82,3 +82,48 @@ class Permute:
         recurse([], [False] * len(nums))
         return rs
 
+
+class SubsetsWithDup:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        rs = []
+        nums.sort()
+
+        def recurse(i: int, cur: List[int]):
+            if i == len(nums):
+                rs.append(cur.copy())
+                return
+
+            cur.append(nums[i])
+            recurse(i+1, cur)
+            cur.pop()
+
+            while i+1 < len(nums) and nums[i] == nums[i+1]:
+                i += 1
+            recurse(i+1, cur)
+
+        recurse(0, [])
+        return rs
+
+
+class WordSearch:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        nrow, ncol = len(board), len(board[0])
+
+        def recurse(row: int, col: int, wi: int):
+            if wi == len(word):
+                return True
+            if col < 0 or col >= ncol or row < 0 or row >= nrow or board[row][col] != word[wi] or board[row][col] == "#":
+                return False
+
+            board[row][col] = "#"
+            if recurse(row + 1, col, wi+1) or recurse(row - 1, col, wi+1) or recurse(row, col + 1, wi+1) or recurse(row, col - 1, wi+1):
+                return True
+            board[row][col] = word[wi]
+            return False
+        
+        for row in range(nrow):
+            for col in range(ncol):
+                if recurse(row, col, 0):
+                    return True
+        return False
+
