@@ -61,3 +61,25 @@ class CombinationSum2:
         recurse(0, [], 0)
         return rs
 
+
+class Permute:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        rs = []
+
+        def recurse(cur: List[int], picked: List[bool]):
+            if len(cur) == len(nums):
+                rs.append(cur.copy())
+                return
+
+            for i in range(len(nums)):
+                if picked[i]:
+                    continue
+                cur.append(nums[i])
+                picked[i] = True
+                recurse(cur, picked)
+                cur.pop()
+                picked[i] = False
+
+        recurse([], [False]*len(nums))
+        return rs
+

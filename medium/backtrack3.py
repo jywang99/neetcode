@@ -125,3 +125,29 @@ class WordSearch:
                     return True
         return False
 
+
+class PalindromePartition:
+    def partition(self, s: str) -> List[List[str]]:
+        def isPalin(l: int, r: int) -> bool:
+            while l < r:
+                if s[l] != s[r]:
+                    return False
+                l, r = l+1, r-1
+            return True
+
+        rs = []
+
+        def recurse(i: int, cur: List[str]):
+            if i == len(s):
+                rs.append(cur.copy())
+                return
+            for j in range(i, len(s)):
+                if not isPalin(i, j):
+                    continue
+                cur.append(s[i:j+1])
+                recurse(j+1, cur)
+                cur.pop()
+
+        recurse(0, [])
+        return rs
+
