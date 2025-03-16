@@ -151,3 +151,33 @@ class PalindromePartition:
         recurse(0, [])
         return rs
 
+
+class LetterCombinations:
+    LETTER_MAP = {
+        "2": [ "a", "b", "c" ],
+        "3": [ "d", "e", "f" ],
+        "4": [ "g", "h", "i" ],
+        "5": [ "j", "k", "l" ],
+        "6": [ "m", "n", "o" ],
+        "7": [ "p", "q", "r", "s" ],
+        "8": [ "t", "u", "v", ],
+        "9": [ "w", "x", "y", "z" ],
+    }
+
+    def letterCombinations(self, digits: str) -> List[str]:
+        rs = []
+
+        def recurse(i: int, cur: str):
+            if len(cur) == len(digits):
+                if cur:
+                    rs.append(cur)
+                return
+
+            for c in self.LETTER_MAP[digits[i]]:
+                cur += c
+                recurse(i+1, cur)
+                cur = cur[:-1]
+
+        recurse(0, "")
+        return rs
+
