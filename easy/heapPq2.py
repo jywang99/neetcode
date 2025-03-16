@@ -1,5 +1,6 @@
+from collections import deque
 import heapq
-from typing import List
+from typing import Counter, List
 
 
 class KthLargest:
