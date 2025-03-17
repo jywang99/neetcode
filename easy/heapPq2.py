@@ -1,6 +1,5 @@
-from collections import deque
 import heapq
-from typing import Counter, List
+from typing import List
 
 
 class KthLargest:
@@ -27,14 +26,6 @@ class LastStoneWeight:
             heapq.heappush(stones, -abs(s1 - s2))
 
         return -stones[0] if stones else 0
-
-
-class FindKthLargest:
-    def findKthLargest(self, nums: List[int], k: int) -> int:
-        heapq.heapify(nums)
-        while len(nums) > k:
-            heapq.heappop(nums)
-        return nums[0]
 
 
 class KClosest:
