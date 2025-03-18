@@ -23,3 +23,31 @@ class InsertInterval:
                 rs[-1][1] = max(rs[-1][1], intv[1])
         return rs
         
+
+class MergeIntervals:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key=lambda l : l[0])
+        rs = [intervals[0]]
+        for intv in intervals:
+            if rs[-1][1] < intv[0]:
+                rs.append(intv)
+                continue
+            rs[-1][1] = max(rs[-1][1], intv[1])
+        return rs
+
+
+class OverlapIntervals:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort()
+        rs = 0
+        prevEnd = intervals[0][1]
+
+        for start, end in intervals[1:]:
+            if start >= prevEnd:
+                prevEnd = end
+                continue
+            rs += 1
+            prevEnd = max(prevEnd, end)
+
+        return rs
+

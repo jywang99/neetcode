@@ -1,5 +1,6 @@
+from collections import deque
 import heapq
-from typing import List
+from typing import Counter, List
 
 
 class FindKthLargest:
@@ -18,4 +19,30 @@ class KClosest:
         while len(hp) > k:
             heapq.heappop(hp)
         return [[x, y] for [_, x, y] in hp]
+
+
+class LeastInterval:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        cnt = Counter(tasks)
+        hp = [-c for c in cnt.values()]
+        heapq.heapify(hp)
+
+        time = 0
+        q = deque() # time, count
+        while hp or q:
+            time += 1
+
+            if not hp:
+                time = q[0][0]
+            else:
+                t = heapq.heappop(hp)
+                t += 1
+                if t < 0:
+                    q.append((time + n, t))
+
+            if q and q[0][0] == time:
+                t = q.popleft()
+                heapq.heappush(hp, t[1])
+
+        return time
 
