@@ -47,7 +47,7 @@ class OverlapIntervals:
                 prevEnd = end
                 continue
             rs += 1
-            prevEnd = max(prevEnd, end)
+            prevEnd = min(prevEnd, end)
 
         return rs
 
