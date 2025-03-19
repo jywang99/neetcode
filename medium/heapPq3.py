@@ -1,6 +1,6 @@
-from collections import deque
+from collections import defaultdict, deque
 import heapq
-from typing import Counter, List
+from typing import Counter, List, Set, Tuple
 
 
 class FindKthLargest:
@@ -45,4 +45,45 @@ class LeastInterval:
                 heapq.heappush(hp, t[1])
 
         return time
+
+
+class Twitter:
+    def __init__(self):
+        self.time = 0
+        self.follows: dict[int, Set[int]] = defaultdict(set)
+        self.tweets: dict[int, List[(Tuple[int, int])]] = defaultdict(list)
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        self.tweets[userId].append((self.time, tweetId))
+        self.time += 1
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        hp = []
+        rs = []
+
+        self.follows[userId].add(userId)
+        for fid in self.follows[userId]:
+            twts = self.tweets[fid]
+            if not twts:
+                continue
+            idx = len(twts)-1
+            time, twid = twts[idx]
+            heapq.heappush(hp, (-time, fid, twid, idx))
+
+        while hp and len(rs) < 10:
+            _, fid, twid, idx = heapq.heappop(hp)
+            rs.append(twid)
+            if idx > 0:
+                idx -= 1
+                time, twid = self.tweets[fid][idx]
+                heapq.heappush(hp, (-time, fid, twid, idx))
+
+        return rs
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        self.follows[followerId].add(followeeId)
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        if followeeId in self.follows[followerId]:
+            self.follows[followerId].remove(followeeId)
 
