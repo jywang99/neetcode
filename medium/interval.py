@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 
 class InsertInterval:
@@ -49,5 +49,30 @@ class OverlapIntervals:
             rs += 1
             prevEnd = min(prevEnd, end)
 
+        return rs
+
+
+class Interval(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+
+class MinMeetingRooms:
+    def minMeetingRooms(self, intervals: List[Interval]) -> int:
+        line: List[Tuple] = []
+        for intv in intervals:
+            line.append((intv.start, True))
+            line.append((intv.end, False))
+        line.sort()
+
+        rs = 0
+        cur = 0
+        for _, start in line:
+            if start:
+                cur += 1
+                rs = max(rs, cur)
+            else:
+                cur -= 1
         return rs
 
