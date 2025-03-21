@@ -1,5 +1,6 @@
+from collections import deque
 import heapq
-from typing import List
+from typing import Counter, List
 
 
 class LastStoneWeight:
@@ -28,4 +29,28 @@ class KClosest:
         while len(points) > k:
             heapq.heappop(points)
         return [[x, y] for [_, x, y] in points]
+
+
+class TaskScheduler:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        cnt = Counter(tasks)
+        hp = [-v for v in cnt.values()]
+        heapq.heapify(hp)
+
+        time = 0
+        q = deque() # remainging, revive time
+        while hp or q:
+            time += 1
+
+            if not hp:
+                time = q[0][1]
+            else:
+                nt = heapq.heappop(hp)
+                if nt < -1:
+                    q.append((nt+1, time+n))
+
+            if q and time == q[0][1]:
+                heapq.heappush(hp, q.popleft()[0])
+
+        return time
 
