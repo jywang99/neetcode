@@ -1,6 +1,6 @@
-from collections import deque
+from collections import defaultdict, deque
 import heapq
-from typing import Counter, List
+from typing import Counter, List, Set, Tuple
 
 
 class LastStoneWeight:
@@ -53,4 +53,42 @@ class TaskScheduler:
                 heapq.heappush(hp, q.popleft()[0])
 
         return time
+
+
+class Twitter:
+    def __init__(self):
+        self.time = 0
+        self.follows: dict[int, Set[int]] = defaultdict(set)
+        self.tweets: dict[int, List[Tuple[int, int]]] = defaultdict(list)
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        self.tweets[userId].append((self.time, tweetId))
+        self.time += 1
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        hp = []
+        self.follows[userId].add(userId)
+        for fid in self.follows[userId]:
+            if not self.tweets[fid]:
+                continue
+            idx = len(self.tweets[fid]) - 1
+            time, twid = self.tweets[fid][idx]
+            heapq.heappush(hp, (-time, fid, idx, twid))
+
+        rs = []
+        while hp and len(rs) < 10:
+            _, fid, idx, twid = heapq.heappop(hp)
+            rs.append(twid)
+            if idx > 0:
+                idx -= 1
+                time, twid = self.tweets[fid][idx]
+                heapq.heappush(hp, (-time, fid, idx, twid))
+        return rs
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        self.follows[followerId].add(followeeId)
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        if followeeId in self.follows[followerId]:
+            self.follows[followerId].remove(followeeId)
 
