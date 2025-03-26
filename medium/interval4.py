@@ -47,3 +47,27 @@ class EraseOverlapIntervals:
                 prevEnd = intv[1]
         return rs
 
+
+class Interval(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+
+class MeetingRooms2:
+    def minMeetingRooms(self, intervals: List[Interval]) -> int:
+        line = []
+        for intv in intervals:
+            line.append((intv.start, True))
+            line.append((intv.end, False))
+        line.sort()
+
+        cur, rs = 0, 0
+        for p in line:
+            if p[1]:
+                cur += 1
+                rs = max(rs, cur)
+            else:
+                cur -= 1
+        return rs
+
