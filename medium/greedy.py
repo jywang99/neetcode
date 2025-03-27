@@ -105,3 +105,20 @@ class PartitionLabels:
 
         return rs
 
+
+class ValidParenString:
+    def checkValidString(self, s: str) -> bool:
+        omax, omin = 0, 0
+        for c in s:
+            if c == "(":
+                omax, omin = omax+1, omin+1
+            elif c == ")":
+                omax, omin = omax-1, omin-1
+            else:
+                omax, omin = omax+1, omin-1
+            if omax < 0:
+                return False
+            if omin < 0:
+                omin = 0
+        return omin == 0
+

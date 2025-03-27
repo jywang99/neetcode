@@ -1,4 +1,4 @@
-from typing import List
+from typing import Counter, List
 
 
 class MaxSubArray:
@@ -48,4 +48,24 @@ class GasStations:
             tank += gas[i] - cost[i]
         
         return rs
+
+
+class StraightHand:
+    def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
+        if len(hand) % groupSize != 0:
+            return False
+
+        cnt = Counter(hand)
+        for n in hand:
+            start = n
+            while cnt[start]:
+                start -= 1
+            while start <= n:
+                while cnt[start]:
+                    for i in range(start, start + groupSize):
+                        if not cnt[i]:
+                            return False
+                        cnt[i] -= 1
+                start += 1
+        return True
 
