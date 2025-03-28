@@ -100,3 +100,20 @@ class PartitionLabels:
 
         return rs
 
+
+class ValidString:
+    def checkValidString(self, s: str) -> bool:
+        om, ox = 0, 0
+        for c in s:
+            if c == "(":
+                om, ox = om+1, ox+1
+            elif c == ")":
+                om, ox = om-1, ox-1
+            else:
+                om, ox = om-1, ox+1
+            if ox < 0:
+                return False
+            if om < 0:
+                om = 0
+        return om == 0
+
