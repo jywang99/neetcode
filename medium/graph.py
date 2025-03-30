@@ -19,3 +19,25 @@ class NumIslands:
                     rs += 1
         return rs
         
+
+class MaxAreaOfIsland:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        rows, cols = len(grid), len(grid[0])
+
+        def recurse(r: int, c: int) -> int:
+            if r < 0 or r >= rows or c < 0 or c >= cols or grid[r][c] == 0:
+                return 0
+            grid[r][c] = 0
+            s = 1
+            for dr, dc in dirs:
+                s += recurse(r+dr, c+dc)
+            return s
+
+        rs = 0
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    rs = max(rs, recurse(r, c))
+        return rs
+

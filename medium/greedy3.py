@@ -81,3 +81,18 @@ class MergeTriplets:
                     idc.add(i)
         return len(idc) == 3
 
+class PartitionLabels:
+    def partitionLabels(self, s: str) -> List[int]:
+        lasts = {}
+        for i, c in enumerate(s):
+            lasts[c] = i
+
+        start, end = 0, 0
+        rs = []
+        for i, c in enumerate(s):
+            end = max(end, lasts[c])
+            if i == end:
+                rs.append(end - start + 1)
+                start = i+1
+
+        return rs

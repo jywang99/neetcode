@@ -34,3 +34,17 @@ class JumpGame2:
             rs += 1
         return rs
 
+
+class GasStation:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        if sum(gas) < sum(cost):
+            return -1
+
+        start, cur = 0, 0
+        for i in range(len(gas)):
+            if cur < 0:
+                cur = 0
+                start = i
+            cur += (gas[i] - cost[i])
+        
+        return start
