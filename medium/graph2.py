@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 
 class NumIslands:
@@ -45,4 +45,30 @@ class AreaOfIsland:
                     sz = recurse(r, c)
                     rs = max(rs, sz)
         return rs
+
+
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+
+
+class CloneGraph:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        if not node:
+            return None
+
+        clones = {}
+        def recurse(n: Node) -> Node:
+            if n in clones:
+                return clones[n]
+            
+            cn = Node(n.val)
+            clones[n] = cn
+            for nei in n.neighbors:
+                cn.neighbors.append(recurse(nei))
+
+            return cn
+        
+        return recurse(node)
 
