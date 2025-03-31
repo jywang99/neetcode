@@ -81,6 +81,7 @@ class MergeTriplets:
                     idc.add(i)
         return len(idc) == 3
 
+
 class PartitionLabels:
     def partitionLabels(self, s: str) -> List[int]:
         lasts = {}
@@ -96,3 +97,21 @@ class PartitionLabels:
                 start = i+1
 
         return rs
+
+
+class CheckValidString:
+    def checkValidString(self, s: str) -> bool:
+        om, ox = 0, 0
+        for c in s:
+            if c == "(":
+                om, ox = om+1, ox+1
+            elif c == ")":
+                om, ox = om-1, ox-1
+            else:
+                om, ox = om-1, ox+1
+            if ox < 0:
+                return False
+            if om < 0:
+                om = 0
+        return om == 0
+
