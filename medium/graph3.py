@@ -1,3 +1,4 @@
+from collections import deque
 from typing import List
 
 
@@ -21,4 +22,26 @@ class NumIslands:
                     rs += 1
         return rs
 
+
+class MaxAreaOfIsland:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        dirs = ((1, 0), (-1, 0), (0, 1), (0, -1))
+        rows, cols = len(grid), len(grid[0])
+
+        def recurse(r: int, c: int) -> int:
+            if r < 0 or r >= rows or c < 0 or c >= cols or grid[r][c] == 0:
+                return 0
+            grid[r][c] = 0
+            sz = 1
+            for dr, dc in dirs:
+                sz += recurse(r+dr, c+dc)
+            return sz
+
+        rs = 0
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    sz = recurse(r, c)
+                    rs = max(rs, sz)
+        return rs
 
