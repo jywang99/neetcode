@@ -1,5 +1,5 @@
 from collections import deque
-from typing import List, Optional
+from typing import List, Optional, Set
 
 
 class NumIslands:
@@ -124,4 +124,34 @@ class Solution:
             time += 1
 
         return time if fresh == 0 else -1
+
+
+class PacificAtlantic:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        rows, cols = len(heights), len(heights[0])
+        dirs = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        pac, atl = set(), set()
+
+        def recurse(r: int, c: int, prevHeight: int, visit: Set):
+            if r < 0 or r >= rows or c < 0 or c >= cols or (r, c) in visit:
+                return
+            h = heights[r][c]
+            if h < prevHeight:
+                return
+            visit.add((r, c))
+            for dr, dc in dirs:
+                recurse(r+dr, c+dc, h, visit)
+
+        for r in range(rows):
+            recurse(r, 0, 0, pac)
+            recurse(r, cols-1, 0, atl)
+
+        for c in range(cols):
+            recurse(0, c, 0, pac)
+            recurse(rows-1, c, 0, atl)
+
+        rs = []
+        for t in pac.intersection(atl):
+            rs.append([t[0], t[1]])
+        return rs
 

@@ -1,5 +1,5 @@
 from collections import deque
-from typing import List
+from typing import List, Optional
 
 
 class NumIslands:
@@ -44,4 +44,29 @@ class MaxAreaOfIsland:
                     sz = recurse(r, c)
                     rs = max(rs, sz)
         return rs
+
+
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+
+
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        doppel = {}
+
+        def recurse(n: Node) -> Node:
+            if n in doppel:
+                return doppel[n]
+            
+            nc = Node(n.val)
+            doppel[n] = nc
+            for nei in n.neighbors:
+                neic = recurse(nei)
+                nc.neighbors.append(neic)
+
+            return nc
+        
+        return recurse(node) if node else None
 

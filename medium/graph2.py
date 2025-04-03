@@ -100,3 +100,34 @@ class IslandsAndTreasure:
                     visit.add((nr, nc))
             dist += 1
 
+
+class OrangesRotting:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        dirs = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        rows, cols = len(grid), len(grid[0])
+
+        q = deque()
+        freshes = 0
+        for r in range(rows):
+            for c in range(cols):
+                v = grid[r][c]
+                if v == 2:
+                    q.append((r, c))
+                elif v == 1:
+                    freshes += 1
+
+        time = 0
+        while q and freshes > 0:
+            for _ in range(len(q)):
+                r, c = q.popleft()
+                for dr, dc in dirs:
+                    nr, nc = r+dr, c+dc
+                    if nr < 0 or nr >= rows or nc < 0 or nc >= cols or grid[nr][nc] != 1:
+                        continue
+                    grid[nr][nc] = 2
+                    q.append((nr, nc))
+                    freshes -= 1
+            time += 1
+
+        return time if freshes == 0 else -1
+
