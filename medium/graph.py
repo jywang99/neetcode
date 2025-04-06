@@ -215,3 +215,35 @@ class CanFinish:
                 return False
         return True
 
+
+class CourseSchedule2:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        pres = {i: [] for i in range(numCourses)}
+        for c, p in prerequisites:
+            pres[c].append(p)
+
+        rs = []
+        visit, cycle = set(), set()
+
+        def dfs(c):
+            if c in cycle:
+                return False
+            if c in visit:
+                return True
+
+            cycle.add(c)
+            for p in pres[c]:
+                if not dfs(p):
+                    return False
+
+            cycle.remove(c)
+            visit.add(c)
+            rs.append(c)
+            return True
+
+        for c in range(numCourses):
+            if dfs(c) == False:
+                return []
+        return rs
+
+

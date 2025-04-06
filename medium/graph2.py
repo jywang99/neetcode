@@ -186,3 +186,32 @@ class SurroundedRegions:
                 elif board[r][c] == "O":
                     board[r][c] = "X"
 
+
+class CourseSchedule:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        pres = {i: [] for i in range(numCourses)}
+        for c, p in prerequisites:
+            pres[c].append(p)
+
+        visit = set()
+
+        def recurse(c):
+            if c in visit:
+                return False
+            if len(pres[c]) == 0:
+                return True
+
+            visit.add(c)
+            for p in pres[c]:
+                if not recurse(p):
+                    return False
+            visit.remove(c)
+
+            pres[c] = []
+            return True
+
+        for c in range(numCourses):
+            if not recurse(c):
+                return False
+        return True
+
