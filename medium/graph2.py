@@ -1,4 +1,4 @@
-from collections import deque
+from collections import defaultdict, deque
 from typing import List, Optional, Set, Tuple
 
 
@@ -214,4 +214,34 @@ class CourseSchedule:
             if not recurse(c):
                 return False
         return True
+
+
+class CourseSchedule2:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        pres = defaultdict(list)
+        for c, p in prerequisites:
+            pres[c].append(p)
+
+        rs = []
+        visit, cycle = set(), set()
+        def recurse(c) -> bool:
+            if c in visit:
+                return True
+            if c in cycle:
+                return False
+
+            cycle.add(c)
+            for p in pres[c]:
+                if not recurse(p):
+                    return False
+            cycle.remove(c)
+            visit.add(c)
+            rs.append(c)
+            return True
+
+        for i in range(numCourses):
+            if not recurse(i):
+                return []
+
+        return rs
 
