@@ -1,4 +1,4 @@
-from collections import deque
+from collections import defaultdict, deque
 from typing import List, Optional, Set, Tuple
 
 
@@ -180,4 +180,29 @@ class SurroundedRegions:
                     board[r][c] = "O"
                 elif board[r][c] == "O":
                     board[r][c] = "X"
+
+
+class CourseSchedule:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        pres = defaultdict(list)
+        for c, p in prerequisites:
+            pres[c].append(p)
+
+        visit = set()
+        def recurse(c: int) -> bool:
+            if c in visit:
+                return False
+
+            visit.add(c)
+            for pre in pres[c]:
+                if not recurse(pre):
+                    return False
+            visit.remove(c)
+            pres[c] = []
+            return True
+
+        for c in range(numCourses):
+            if not recurse(c):
+                return False
+        return True
 

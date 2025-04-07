@@ -272,3 +272,26 @@ class GraphValidTree:
 
         return recurse(0, -1) and len(visit) == n 
 
+
+class CountComponents:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        adj = [[] for _ in range(n)]
+        for u, v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+
+        visit = [False] * n
+        def recurse(node):
+            for nei in adj[node]:
+                if not visit[nei]:
+                    visit[nei] = True
+                    recurse(nei)
+
+        rs = 0
+        for node in range(n):
+            if not visit[node]:
+                visit[node] = True
+                recurse(node)
+                rs += 1
+        return rs
+
