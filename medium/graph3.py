@@ -206,3 +206,33 @@ class CourseSchedule:
                 return False
         return True
 
+
+class CourseSchedule2:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        pres = [[] for _ in range(numCourses)]
+        for c, p in prerequisites:
+            pres[c].append(p)
+
+        rs = []
+        clear, cycle = set(), set()
+
+        def recurse(c: int) -> bool:
+            if c in clear:
+                return True
+            if c in cycle:
+                return False
+
+            cycle.add(c)
+            for p in pres[c]:
+                if not recurse(p):
+                    return False
+            cycle.remove(c)
+            clear.add(c)
+            rs.append(c)
+            return True
+
+        for c in range(numCourses):
+            if not recurse(c):
+                return []
+        return rs
+
