@@ -295,3 +295,13 @@ class CountComponents:
                 rs += 1
         return rs
 
+
+class RedundantConnection:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        adj = [[] for _ in edges]
+
+        visit, cycle = set(), set()
+        def recurse(v: int):
+            pass
+
+

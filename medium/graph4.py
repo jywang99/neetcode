@@ -150,3 +150,30 @@ class PacificAtlantic:
             rs.append([r, c])
         return rs
 
+
+class SurroundedRegions:
+    def solve(self, board: List[List[str]]) -> None:
+        rows, cols = len(board), len(board[0])
+        dirs = ((-1, 0), (1, 0), (0, -1), (0, 1))
+
+        def recurse(r: int, c: int):
+            if r<0 or r>=rows or c<0 or c>=cols or board[r][c] != "O":
+                return
+            board[r][c] = "E"
+            for dr, dc in dirs:
+                recurse(r+dr, c+dc)
+
+        for r in range(rows):
+            recurse(r, 0)
+            recurse(r, cols-1)
+        for c in range(cols):
+            recurse(0, c)
+            recurse(rows-1, c)
+
+        for r in range(rows):
+            for c in range(cols):
+                if board[r][c] == "E":
+                    board[r][c] = "O"
+                elif board[r][c] == "O":
+                    board[r][c] = "X"
+

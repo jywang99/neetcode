@@ -236,3 +236,30 @@ class CourseSchedule2:
                 return []
         return rs
 
+
+class GraphValidTree:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        adj = [[] for _ in range(n)]
+        for u, v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+
+        visit, cycle = set(), set()
+        def recurse(v: int, prev: int) -> bool:
+            if v in visit:
+                return True
+            if v in cycle:
+                return False
+
+            cycle.add(v)
+            for nv in adj[v]:
+                if nv == prev:
+                    continue
+                if not recurse(nv, v):
+                    return False
+            cycle.remove(v)
+            visit.add(v)
+            return True
+
+        return len(visit) == n if recurse(0, -1) else False
+
