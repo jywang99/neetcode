@@ -177,3 +177,27 @@ class SurroundedRegions:
                 elif board[r][c] == "O":
                     board[r][c] = "X"
 
+
+class CanFinish:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        adj = [[] for _ in range(numCourses)]
+        for c, p in prerequisites:
+            adj[c].append(p)
+
+        cycle = set()
+        def recurse(c: int) -> bool:
+            if c in cycle:
+                return False
+            cycle.add(c)
+            for p in adj[c]:
+                if not recurse(p):
+                    return False
+            cycle.remove(c)
+            adj[c] = []
+            return True
+
+        for c in range(numCourses):
+            if not recurse(c):
+                return False
+        return True
+
