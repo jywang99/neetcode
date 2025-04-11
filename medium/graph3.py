@@ -288,3 +288,28 @@ class CountComponents:
                 rs += 1
         return rs
 
+
+class FindRedundantConnection:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        adj = [[] for _ in range(len(edges) + 1)]
+
+        cycle = set()
+        def hasCycle(v: int, prev: int) -> bool:
+            if v in cycle:
+                return True
+            cycle.add(v)
+            for nv in adj[v]:
+                if nv == prev:
+                    continue
+                if hasCycle(nv, v):
+                    return True
+            return False
+
+        for u, v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+            cycle = set()
+            if hasCycle(u, -1):
+                return [u, v]
+        raise Exception("WTF")
+

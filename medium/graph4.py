@@ -201,3 +201,32 @@ class CanFinish:
                 return False
         return True
 
+
+class CourseSchedule2:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        adj = [[] for _ in range(numCourses)]
+        for c, p in prerequisites:
+            adj[c].append(p)
+
+        clear, cycle = set(), set()
+        rs = []
+        def recurse(c: int) -> bool:
+            if c in cycle:
+                return False
+            if c in clear:
+                return True
+
+            cycle.add(c)
+            for p in adj[c]:
+                if not recurse(p):
+                    return False
+            cycle.remove(c)
+            clear.add(c)
+            rs.append(c)
+            return True
+
+        for c in range(numCourses):
+            if not recurse(c):
+                return []
+        return rs
+
