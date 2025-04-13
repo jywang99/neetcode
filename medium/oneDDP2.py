@@ -44,7 +44,7 @@ class LongestPalindrome:
                 if l > plen:
                     rs = s[i:j+1]
                     plen = l
-                i, j = i+1, j+1
+                i, j = i-1, j+1
 
         for i in range(len(s)):
             update(i, i)
