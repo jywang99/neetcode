@@ -31,3 +31,25 @@ class HouseRobbing2:
     def rob(self, nums: List[int]) -> int:
         return max(nums[0], self.robLine(nums[1:]), self.robLine(nums[:-1]))
 
+
+class LongestPalindrome:
+    def longestPalindrome(self, s: str) -> str:
+        rs = ""
+        plen = 0
+
+        def update(i: int, j: int):
+            nonlocal rs, plen
+            while i>=0 and j<len(s) and s[i] == s[j]:
+                l = j - i + 1
+                if l > plen:
+                    rs = s[i:j+1]
+                    plen = l
+                i, j = i+1, j+1
+
+        for i in range(len(s)):
+            update(i, i)
+            if i+1 < len(s):
+                update(i, i+1)
+
+        return rs
+
