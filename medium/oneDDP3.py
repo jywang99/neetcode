@@ -15,7 +15,7 @@ class HouseRobber:
         return recurse(0)
         
 
-class Solution:
+class HouseRobber2:
     def robLine(self, nums: List[int]) -> int:
         cache = [-1] * len(nums)
         def recurse(i: int) -> int:
@@ -28,4 +28,26 @@ class Solution:
 
     def rob(self, nums: List[int]) -> int:
         return max(nums[0], self.robLine(nums[1:]), self.robLine(nums[:-1]))
+
+
+class LongestPalindrome:
+    def longestPalindrome(self, s: str) -> str:
+        rs = ""
+        mlen = 0
+
+        def update(i: int, j: int):
+            nonlocal rs, mlen
+            while i>=0 and j<len(s) and s[i] == s[j]:
+                l = j - i + 1
+                if l > mlen:
+                    mlen = l
+                    rs = s[i:j+1]
+                i, j = i-1, j+1
+
+        for i in range(len(s)):
+            update(i, i)
+            if i+1 < len(s):
+                update(i, i+1)
+
+        return rs
 
