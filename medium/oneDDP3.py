@@ -51,3 +51,21 @@ class LongestPalindrome:
 
         return rs
 
+
+class CountSubstrings:
+    def countSubstrings(self, s: str) -> int:
+        rs = 0
+
+        def update(i: int, j: int):
+            nonlocal rs
+            while i>=0 and j<len(s) and s[i] == s[j]:
+                rs += 1
+                i, j = i-1, j+1
+
+        for i in range(len(s)):
+            update(i, i)
+            if i+1 < len(s):
+                update(i, i+1)
+
+        return rs
+
