@@ -128,3 +128,25 @@ class MaxProduct:
 
         return rs
 
+
+class WordBreak:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        cache = {}
+
+        def recurse(i: int) -> bool:
+            if i >= len(s):
+                return True
+            if i in cache:
+                return cache[i]
+
+            rs = False
+            for word in wordDict:
+                if s[i:].startswith(word) and recurse(i+len(word)):
+                    rs = True
+                    break
+
+            cache[i] = rs
+            return rs
+        
+        return recurse(0)
+
