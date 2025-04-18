@@ -24,3 +24,24 @@ class ClimbStairs:
             return cache[i]
         return recurse(0)
 
+
+class LongestPalindrome:
+    def longestPalindrome(self, s: str) -> str:
+        mlen, pal = 0, ""
+
+        def update(i: int, j: int):
+            nonlocal mlen, pal
+            while i>=0 and j<len(s) and s[i] == s[j]:
+                l = j - i + 1
+                if l > mlen:
+                    mlen = l
+                    pal = s[i:j+1]
+                i, j = i-1, j+1
+
+        for i in range(len(s)):
+            update(i, i)
+            if i+1 < len(s):
+                update(i, i+1)
+
+        return pal
+

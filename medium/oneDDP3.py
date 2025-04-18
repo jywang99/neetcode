@@ -87,3 +87,26 @@ class NumDecodings:
 
         return recurse(0)
 
+
+class CoinChange:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        cache = {0: 0}
+
+        def recurse(amt: int) -> int:
+            if amt in cache:
+                return cache[amt]
+
+            rs = int(1e9)
+            for coin in coins:
+                rem = amt - coin
+                if rem < 0:
+                    continue
+                c = 1 + recurse(amt - coin)
+                rs = min(rs, c)
+
+            cache[amt] = rs
+            return rs
+
+        c = recurse(amount)
+        return c if c < 1e9 else -1
+
