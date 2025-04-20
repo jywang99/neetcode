@@ -110,3 +110,18 @@ class CoinChange:
         c = recurse(amount)
         return c if c < 1e9 else -1
 
+
+class MaxProduct:
+    def maxProduct(self, nums: List[int]) -> int:
+        pmin, pmax = 1, 1
+        rs = nums[0]
+
+        for n in nums:
+            tmin, tmax = pmin * n, pmax * n
+            pmin = min(n, tmax, tmin)
+            pmax = max(n, tmax, tmin)
+
+            rs = max(rs, pmax)
+
+        return rs
+        
