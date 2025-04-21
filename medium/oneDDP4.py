@@ -47,3 +47,41 @@ class CountSubstrings:
 
         return rs
         
+
+class NumDecodings:
+    def numDecodings(self, s: str) -> int:
+        cache = { len(s): 1 }
+
+        def recurse(i: int) -> int:
+            if i in cache:
+                return cache[i]
+            if s[i] == "0":
+                return 0
+
+            rs = recurse(i+1)
+            if i+1 < len(s) and (s[i] == "1" or s[i] == "2" and s[i+1] in "0123456"):
+                rs += recurse(i+2)
+
+            cache[i] = rs
+            return rs
+
+        return recurse(0)
+
+
+class CoinChange:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        cache = { 0: 0 }
+
+        def recurse(amt: int) -> int:
+            if amt in cache:
+                return cache[amt]
+            rs = int(1e9)
+            for coin in coins:
+                if amt - coin >= 0:
+                    rs = min(rs, 1 + recurse(amt - coin))
+            cache[amt] = rs
+            return rs
+        
+        cs = recurse(amount)
+        return cs if cs < 1e9 else -1
+

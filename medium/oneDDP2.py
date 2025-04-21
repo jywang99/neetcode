@@ -160,3 +160,25 @@ class LongestIncreasing:
 
         return max(recurse(i) for i in range(len(nums)))
 
+
+class CanPartition:
+    def canPartition(self, nums: List[int]) -> bool:
+        if sum(nums) % 2 != 0:
+            return False
+        target = sum(nums) / 2
+
+        dp = set()
+        dp.add(0)
+
+        for i in range(len(nums)):
+            ndp = set()
+            for d in dp:
+                ndp.add(d)
+                nd = d + nums[i]
+                if nd == target:
+                    return True
+                ndp.add(nd)
+            dp = ndp
+
+        return False
+

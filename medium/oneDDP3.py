@@ -79,9 +79,11 @@ class NumDecodings:
                 return cache[i]
             if s[i] == "0":
                 return 0
+
             ways = recurse(i+1)
             if i+1 < len(s) and (s[i] == "1" or s[i] == "2" and s[i+1] in "0123456"):
                 ways += recurse(i+2)
+
             cache[i] = ways
             return ways
 
@@ -101,7 +103,7 @@ class CoinChange:
                 rem = amt - coin
                 if rem < 0:
                     continue
-                c = 1 + recurse(amt - coin)
+                c = 1 + recurse(rem)
                 rs = min(rs, c)
 
             cache[amt] = rs
@@ -125,3 +127,38 @@ class MaxProduct:
 
         return rs
         
+
+class WordBreak:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        cache = { len(s): True }
+
+        def recurse(i: int) -> bool:
+            if i in cache:
+                return cache[i]
+            for word in wordDict:
+                if s[i:].startswith(word) and recurse(i + len(word)):
+                    cache[i] = True
+                    return True
+            cache[i] = False
+            return False
+
+        return recurse(0)
+
+
+class LengthOfLIS:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        cache = { len(nums)-1: 1 }
+
+        def recurse(i: int) -> int:
+            if i in cache:
+                return cache[i]
+            rs = 1
+            for j in range(i+1, len(nums)):
+                if nums[i] >= nums[j]:
+                    continue
+                rs = max(rs, 1 + recurse(j))
+            cache[i] = rs
+            return rs
+
+        return max(recurse(i) for i in range(len(nums)))
+
