@@ -182,3 +182,17 @@ class CanPartition:
 
         return False
 
+
+class MaxProduct:
+    def maxProduct(self, nums: List[int]) -> int:
+        pmax, pmin = 1, 1
+        rs = nums[0]
+
+        for n in nums:
+            nmax, nmin = pmax * n, pmin * n
+            pmax = max(n, nmax, nmin)
+            pmin = min(n, nmax, nmin)
+            rs = max(rs, pmax)
+
+        return rs
+
