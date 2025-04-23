@@ -1,3 +1,6 @@
+from typing import List
+
+
 class UniquePaths:
     def uniquePaths(self, m: int, n: int) -> int:
         cache = {}
@@ -32,4 +35,27 @@ class CommonSubsequence:
             return rs
 
         return recurse(0, 0)
+
+
+
+class MaxProfit:
+    def maxProfit(self, prices: List[int]) -> int:
+        cache = {}
+
+        def recurse(i: int, buy: bool) -> int:
+            if (i, buy) in cache:
+                return cache[(i, buy)]
+            if i >= len(prices):
+                return 0
+
+            rs = recurse(i+1, buy)
+            if buy:
+                rs = max(rs, recurse(i+1, False) - prices[i])
+            else:
+                rs = max(rs, recurse(i+2, True) + prices[i])
+
+            cache[(i, buy)] = rs
+            return rs
+
+        return recurse(0, True)
 

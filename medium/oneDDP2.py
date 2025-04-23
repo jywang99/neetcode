@@ -111,20 +111,6 @@ class CoinChange:
         return cs if cs < 1e5 else -1
 
 
-class MaxProduct:
-    def maxProduct(self, nums: List[int]) -> int:
-        rs = nums[0]
-        maxp, minp = 1, 1
-
-        for n in nums:
-            tmax, tmin = maxp * n, minp * n
-            maxp = max(n, tmax, tmin)
-            minp = min(n, tmax, tmin)
-            rs = max(rs, maxp)
-
-        return rs
-
-
 class WordBreak:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         cache = {len(s): True}

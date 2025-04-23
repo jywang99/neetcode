@@ -85,3 +85,36 @@ class CoinChange:
         cs = recurse(amount)
         return cs if cs < 1e9 else -1
 
+
+class MaxProduct:
+    def maxProduct(self, nums: List[int]) -> int:
+        rs = nums[0]
+        maxp, minp = 1, 1
+
+        for n in nums:
+            tmax, tmin = maxp * n, minp * n
+            maxp = max(n, tmax, tmin)
+            minp = min(n, tmax, tmin)
+            rs = max(rs, maxp)
+
+        return rs
+
+
+class WordBreak:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        ls = len(s)
+        cache = { ls: True }
+
+        def recurse(i: int) -> bool:
+            if i in cache:
+                return cache[i]
+            rs = False
+            for word in wordDict:
+                if s[i:].startswith(word) and recurse(i + len(word)):
+                    rs = True
+                    break
+            cache[i] = rs
+            return rs
+
+        return recurse(0)
+

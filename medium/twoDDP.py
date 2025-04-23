@@ -58,3 +58,26 @@ class MaxProfit:
 
         return recurse(0, True)
         
+
+class CoinChange2:
+    def change(self, amount: int, coins: List[int]) -> int:
+        coins.sort()
+        cache = {}
+
+        def recurse(i: int, amt: int) -> int:
+            if amt == 0:
+                return 1
+            if i >= len(coins):
+                return 0
+            if (i, amt) in cache:
+                return cache[(i, amt)]
+
+            rs = 0
+            if amt >= coins[i]:
+                rs += recurse(i+1, amt) + recurse(i, amt - coins[i])
+
+            cache[(i, amt)] = rs
+            return rs
+        
+        return recurse(0, amount)
+
