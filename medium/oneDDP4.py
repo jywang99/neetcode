@@ -135,3 +135,24 @@ class LengthOfLIS:
 
         return max(recurse(i) for i in range(len(nums)))
 
+
+class CanPartition:
+    def canPartition(self, nums: List[int]) -> bool:
+        sn = sum(nums)
+        if sn % 2 != 0:
+            return False
+        target = sn // 2
+
+        universe = set()
+        universe.add(0)
+        for n in nums:
+            nu = set()
+            for v in universe:
+                nv = v + n
+                if nv == target:
+                    return True
+                nu.add(v)
+                nu.add(nv)
+            universe = nu
+        return False
+

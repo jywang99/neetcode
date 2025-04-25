@@ -83,3 +83,20 @@ class CoinChange2:
 
         return recurse(0, amount)
 
+
+class TargetSumWays:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        cache = { (len(nums), 0): 1 }
+
+        def recurse(i: int, t: int) -> int:
+            k = (i, t)
+            if k in cache:
+                return cache[k]
+            if i >= len(nums):
+                return 0
+
+            cache[k] = recurse(i+1, t-nums[i]) + recurse(i+1, t+nums[i])
+            return cache[k]
+
+        return recurse(0, target)
+
