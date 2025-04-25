@@ -118,3 +118,20 @@ class WordBreak:
 
         return recurse(0)
 
+
+class LengthOfLIS:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        cache = { len(nums)-1: 1 }
+
+        def recurse(i: int) -> int:
+            if i in cache:
+                return cache[i]
+            rs = 1
+            for j in range(i+1, len(nums)):
+                if nums[i] < nums[j]:
+                    rs = max(rs, 1 + recurse(j))
+            cache[i] = rs
+            return rs
+
+        return max(recurse(i) for i in range(len(nums)))
+
