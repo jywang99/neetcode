@@ -107,3 +107,28 @@ class FindTargetSumWays:
 
         return recurse(0, target)
 
+
+class InterleavingStrings:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        if len(s1) + len(s2) != len(s3):
+            return False
+
+        cache = {}
+        def recurse(i: int, j: int, k: int) -> bool:
+            if k == len(s3):
+                return i == len(s1) and j == len(s2)
+            ck = (i, j)
+            if ck in cache:
+                return cache[ck]
+
+            rs = False
+            if i < len(s1) and s1[i] == s3[k]:
+                rs = recurse(i+1, j, k+1)
+            if not rs and j < len(s2) and s2[j] == s3[k]:
+                rs = recurse(i, j+1, k+1)
+
+            cache[ck] = rs
+            return rs
+
+        return recurse(0, 0, 0)
+

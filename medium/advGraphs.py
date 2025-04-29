@@ -1,5 +1,6 @@
-from typing import List
 from collections import defaultdict
+from typing import List
+import heapq
 
 
 class NetworkDelayTime:
@@ -8,16 +9,48 @@ class NetworkDelayTime:
         for u, v, w in times:
             adj[u].append((v, w))
 
-        dst = { nn: float("inf") for nn in range(1, n+1) }
-        def recurse(node: int, time: int):
-            if time >= dst[node]:
-                return
+        hp = [(0, k)]
+        visit = set()
+        t = 0
+        while hp:
+            tw, tn = heapq.heappop(hp)
+            if tn in visit:
+                continue
+            visit.add(tn)
+            t = tw
 
-            dst[node] = time
-            for nei, w in adj[node]:
-                recurse(nei, time + w)
+            for nn, nw in adj[tn]:
+                if nn not in visit:
+                    heapq.heappush(hp, (tw + nw, nn))
 
-        recurse(k, 0)
-        rs = max(dst.values())
-        return rs if rs < float("inf") else -1
-        
+        return t if len(visit) == n else -1
+
+
+class CostConnectPoints:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        N = len(points)
+        adj = [[] for _ in range(N)]
+        for i in range(N):
+            x1, y1 = points[i]
+            for j in range(i+1, N):
+                x2, y2 = points[j]
+                dst = abs(x1 - x2) + abs(y1 - y2)
+                adj[i].append([dst, j])
+                adj[j].append([dst, i])
+
+        rs = 0
+        visit = set()
+        hp = [[0, 0]]
+        while len(visit) < N:
+            cost, i = heapq.heappop(hp)
+            if i in visit:
+                continue
+            rs += cost
+            visit.add(i)
+
+            for nc, nei in adj[i]:
+                if nei not in visit:
+                    heapq.heappush(hp, [nc, nei])
+
+        return rs
+
