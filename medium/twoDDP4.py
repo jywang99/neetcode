@@ -1,3 +1,6 @@
+from typing import List
+
+
 class UniquePaths:
     def uniquePaths(self, m: int, n: int) -> int:
         cache = { (m-1, n-1): 1 }
@@ -36,4 +39,28 @@ class CommonSubsequence:
             return rs
 
         return recurse(0, 0)
+
+
+class CoinChange2:
+    def change(self, amount: int, coins: List[int]) -> int:
+        coins.sort()
+        cache = { (len(coins), 0): 1 }
+
+        def recurse(i: int, amt: int) -> int:
+            k = (i, amt)
+            if k in cache:
+                return cache[k]
+            if i >= len(coins):
+                return 0
+
+            rs = 0
+            coin = coins[i]
+            if amt - coin >= 0:
+                rs += recurse(i, amt - coin)
+            rs += recurse(i+1, amt)
+
+            cache[k] = rs
+            return rs
+
+        return recurse(0, amount)
 
