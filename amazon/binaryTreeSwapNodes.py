@@ -1,9 +1,5 @@
-import math
 import os
-import random
-import re
-import sys
-from typing import List
+from typing import List, Optional
 
 #
 # Complete the 'swapNodes' function below.
@@ -17,12 +13,53 @@ from typing import List
 class Node:
     def __init__(self, val) -> None:
         self.val = val
-        self.left = None
-        self.right = None
+        self.left: Optional[Node] = None
+        self.right: Optional[Node] = None
 
-def mkTree(indexes: List[List[int]]):
+def swap(root: Node, k: int):
+    def swp(n: Optional[Node], k: int, cur: int):
+        if not n:
+            return
+        
+        if cur % k == 0:
+            n.left, n.right = n.right, n.left
 
-def swapNodes(indexes, queries):
+        swp(n.left, k, cur+1)
+        swp(n.right, k, cur+1)
+
+    swp(root, k, 1)
+
+def listToTree(indexes: List[List[int]]) -> Optional[Node]:
+    nodes = [Node(i+1) for i in range(len(indexes))]
+    for i, row in enumerate(indexes):
+        n = nodes[i]
+        n.left = nodes[row[0]-1] if row[0] > 0 else None
+        n.right = nodes[row[1]-1] if row[1] > 0 else None
+    return nodes[0]
+
+def inOrder(root: Node) -> List[int]:
+    rs = []
+    def recurse(n: Optional[Node]):
+        if not n:
+            return
+        recurse(n.left)
+        rs.append(n.val)
+        recurse(n.right)
+    
+    recurse(root)
+    return rs
+
+def swapNodes(indexes: List[List[int]], queries: List[int]) -> List[List[int]]:
+    root = listToTree(indexes)
+    if not root:
+        return []
+
+    rs = []
+    for k in queries:
+        swap(root, k)
+        rs.append(inOrder(root))
+
+    return rs
 
 
 if __name__ == '__main__':
