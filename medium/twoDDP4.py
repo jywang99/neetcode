@@ -106,3 +106,29 @@ class InterleavingString:
 
         return recurse(0, 0, 0)
 
+
+class EditDistance:
+    def minDistance(self, word1: str, word2: str) -> int:
+        m, n = len(word1), len(word2)
+        cache = { (m, n): 0 }
+
+        def recurse(i: int, j: int) -> int:
+            k = (i, j)
+            if k in cache:
+                return cache[k]
+            if i == m:
+                return n - j
+            if j == n:
+                return m - i
+
+            rs = 0
+            if word1[i] == word2[j]:
+                rs = recurse(i+1, j+1)
+            else:
+                rs = 1 + min(recurse(i+1, j), recurse(i, j+1), recurse(i+1, j+1))
+
+            cache[k] = rs
+            return rs
+
+        return recurse(0, 0)
+
