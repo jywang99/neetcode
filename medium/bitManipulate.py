@@ -44,3 +44,25 @@ class ReverseBits:
             rs += (b << 31 - i)
         return rs
 
+
+class MissingNumber:
+    def missingNumber(self, nums: List[int]) -> int:
+        rs = len(nums)
+        for i, n in enumerate(nums):
+            rs ^= i ^ n
+        return rs
+
+
+class GetSum:
+    def getSum(self, a: int, b: int) -> int:
+        rs, cb = 0, 0
+
+        for i in range(32):
+            ab, bb = (a >> i) & 1, (b >> i) & 1
+            rs |= (ab ^ bb ^ cb) << i
+            cb = (ab & bb) | (ab & cb) | (bb & cb)
+        if rs > 0x7FFFFFFF:
+            rs = ~(rs ^ 0xFFFFFFFF)
+
+        return rs
+

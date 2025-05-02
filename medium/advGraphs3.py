@@ -51,3 +51,22 @@ class CostConnectPoints:
 
         return cost
 
+
+class CheapestPrice:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        INF = float("inf")
+        dist = [INF] * n
+        dist[src] = 0
+        for _ in range(k+1):
+            tmpDist = dist.copy()
+            for u, v, w in flights:
+                if dist[u] == INF:
+                    continue
+                nd = dist[u] + w
+                if nd < tmpDist[v]:
+                    tmpDist[v] = nd
+            dist = tmpDist
+
+        rs = dist[dst]
+        return int(rs) if rs != INF else -1
+
