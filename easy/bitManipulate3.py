@@ -1,0 +1,19 @@
+from typing import List
+
+
+class SingleNumber:
+    def singleNumber(self, nums: List[int]) -> int:
+        rs = 0
+        for n in nums:
+            rs ^= n
+        return rs
+        
+
+class HammingWeight:
+    def hammingWeight(self, n: int) -> int:
+        rs = 0
+        for i in range(32):
+            if (n >> i) & 1:
+                rs += 1
+        return rs
+        

@@ -1,38 +1,13 @@
-from typing import List
+class GetSum:
+    def getSum(self, a: int, b: int) -> int:
+        mask = 0xFFFFFFFF
+        max_int = 0x7FFFFFFF
 
-
-class HammingWeight:
-    def hammingWeight(self, n: int) -> int:
-        rs = 0
+        rs, cb = 0, 0
         for i in range(32):
-            if (1 << i) & n:
-                rs += 1
-        return rs
-        
+            ab, bb = (a >> i) & 1, (b >> i) & 1
+            rs |= (ab ^ bb ^ cb) << i
+            cb = (ab & bb) | (bb & cb) | (ab & cb)
 
-class SingleNumber:
-    def singleNumber(self, nums: List[int]) -> int:
-        rs = 0
-        for n in nums:
-            rs ^= n
-        return rs
-
-
-class CountBits:
-    def countBits(self, n: int) -> List[int]:
-        dp = [0] * (n+1)
-        for i in range(1, n+1):
-            dp[i] = dp[i >> 1] + (i & 1)
-        return dp
-
-
-class ReverseBits:
-    def reverseBits(self, n: int) -> int:
-        rs = 0
-        i = 0
-        while n > 0:
-            rs += (n & 1) << (31 - i)
-            n >>= 1
-            i += 1
-        return rs
+        return rs if rs < max_int else ~(rs ^ mask)
 
