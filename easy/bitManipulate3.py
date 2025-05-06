@@ -34,3 +34,11 @@ class ReverseBits:
             n >>= 1
         return rs
 
+
+class MissingNumber:
+    def missingNumber(self, nums: List[int]) -> int:
+        rs = len(nums)
+        for i, n in enumerate(nums):
+            rs ^= i ^ n
+        return rs
+
