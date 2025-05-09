@@ -32,3 +32,11 @@ class CountBits:
             rs.append(rs[i >> 1] + (i & 1))
         return rs
 
+
+class MissingNumber:
+    def missingNumber(self, nums: List[int]) -> int:
+        rs = len(nums)
+        for i, n in enumerate(nums):
+            rs ^= i ^ n
+        return rs
+
