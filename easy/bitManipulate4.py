@@ -17,6 +17,7 @@ class SingleNumber:
             rs ^= n
         return rs
 
+
 class ReverseBits:
     def reverseBits(self, n: int) -> int:
         rs = 0
