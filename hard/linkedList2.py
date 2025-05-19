@@ -34,3 +34,33 @@ class MergeKLists:
 
         return dummy.next
 
+
+class ReverseKGroup:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        def getKth(n: Optional[ListNode]):
+            kk = k
+            while n and kk:
+                n = n.next
+                kk -= 1
+            return n
+
+        dummy = gprev = ListNode(0, head)
+        while True:
+            kth = getKth(gprev)
+            if not kth:
+                break
+            gnext = kth.next
+
+            prev, cur = gnext, gprev.next
+            while cur != gnext:
+                tmp = cur.next
+                cur.next = prev
+                prev = cur
+                cur = tmp
+
+            tmp = gprev.next
+            gprev.next = kth
+            gprev = tmp
+
+        return dummy.next
+        
