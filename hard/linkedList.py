@@ -16,7 +16,7 @@ class NodeWrap:
         return self.node.val < other.node.val
 
 
-class Solution:
+class MergeKLists:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         hp = []
         for n in lists:
