@@ -5,7 +5,7 @@ from typing import List, Optional
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
-        self.next = next
+        self.next: ListNode|None = next
 
 
 class NodeWrap:
@@ -34,3 +34,32 @@ class MergeKLists:
 
         return dummy.next
 
+
+class ReverseKGroup:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        def getKth(n: ListNode|None) -> Optional[ListNode]:
+            kk = k
+            while kk and n:
+                n = n.next
+                kk -= 1
+            return n
+
+        dummy = gprev = ListNode(0, head)
+        while gprev:
+            kth = getKth(gprev)
+            if not kth:
+                break
+            gnext = kth.next
+
+            prev, curr = gnext, gprev.next
+            while curr and curr != gnext:
+                tmp = curr.next
+                curr.next = prev
+                prev = curr
+                curr = tmp
+
+            tmp = gprev.next
+            gprev.next = kth
+            gprev = tmp
+
+        return dummy.next

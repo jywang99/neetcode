@@ -1,5 +1,5 @@
-from collections import defaultdict
-from typing import Counter
+from collections import defaultdict, deque
+from typing import Counter, List
 
 
 class MinWindow:
@@ -28,6 +28,25 @@ class MinWindow:
                     if scnt[lc] == tcnt[lc]:
                         ok -= 1
                     scnt[lc] -= 1
+                l += 1
+
+        return rs
+
+
+class MaxSlidingWindow:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        rs = []
+        l = 0
+        q = deque()
+        for r, nr in enumerate(nums):
+            while q and nums[q[-1]] < nr:
+                q.pop()
+            q.append(r)
+
+            if r + 1 >= k:
+                rs.append(nums[q[0]])
+                if q[0] == l:
+                    q.popleft()
                 l += 1
 
         return rs
