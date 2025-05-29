@@ -1,4 +1,5 @@
 from collections import defaultdict
+import heapq
 from typing import List
 
 
@@ -43,3 +44,25 @@ class ReconstructItinerary:
         recurse("JFK")
         return rs[::-1]
         
+
+class SwimInWater:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        dirs = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        
+        hp = [(grid[0][0], 0, 0)]
+        visit = set()
+        while hp:
+            t, r, c = heapq.heappop(hp)
+            if r == rows-1 and c == cols-1:
+                return t
+            visit.add((r, c))
+
+            for dr, dc in dirs:
+                nr, nc = r+dr, c+dc
+                if nr < 0 or nr >= rows or nc < 0 or nc >= cols or (nr, nc) in visit:
+                    continue
+                heapq.heappush(hp, (max(t, grid[nr][nc]), nr, nc))
+
+        raise Exception()
+
