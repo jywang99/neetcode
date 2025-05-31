@@ -49,3 +49,26 @@ class DistinctSubsequences:
 
         return recurse(0, 0)
 
+
+class BurstBalloons:
+    def maxCoins(self, nums: List[int]) -> int:
+        nums = [1] + nums + [1]
+        cache = {}
+
+        def recurse(l: int, r: int) -> int:
+            if l > r:
+                return 0
+            if (l, r) in cache:
+                return cache[(l, r)]
+
+            rs = 0
+            for i in range(l, r+1):
+                coins = nums[l - 1] * nums[i] * nums[r + 1]
+                coins += recurse(l, i-1) + recurse(i+1, r)
+                rs = max(rs, coins)
+
+            cache[(l, r)] = rs
+            return rs
+
+        return recurse(1, len(nums)-2)
+
