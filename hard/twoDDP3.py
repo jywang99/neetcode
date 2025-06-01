@@ -27,3 +27,25 @@ class LongestIncreasingPath:
                 rs = max(rs, recurse(r, c, -1))
         return rs
         
+
+class DistinctSubsequences:
+    def numDistinct(self, s: str, t: str) -> int:
+        cache = {}
+        m, n = len(s), len(t)
+
+        def recurse(i: int, j: int) -> int:
+            if j == n:
+                return 1
+            if i == m:
+                return 0
+            if (i, j) in cache:
+                return cache[(i, j)]
+
+            rs = recurse(i+1, j)
+            if s[i] == t[j]:
+                rs += recurse(i+1, j+1)
+            cache[(i, j)] = rs
+            return rs
+
+        return recurse(0, 0)
+        

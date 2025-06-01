@@ -72,3 +72,28 @@ class BurstBalloons:
 
         return recurse(1, len(nums)-2)
 
+
+class RegularExpressionMatching:
+    def isMatch(self, s: str, p: str) -> bool:
+        cache = {}
+
+        def recurse(i: int, j: int) -> bool:
+            if j == len(p):
+                return i == len(s)
+            if (i, j) in cache:
+                return cache[(i, j)]
+
+            ok = i < len(s) and (s[i] == p[j] or p[j] == ".")
+            if j+1 < len(p) and p[j+1] == "*":
+                cache[(i, j)] = recurse(i, j+2) or ok and recurse(i+1, j)
+                return cache[(i, j)]
+
+            if ok:
+                cache[(i, j)] = recurse(i+1, j+1)
+                return cache[(i, j)]
+
+            cache[(i, j)] = False
+            return False
+
+        return recurse(0, 0)
+
