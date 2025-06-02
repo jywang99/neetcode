@@ -40,3 +40,42 @@ class SpiralMatrix:
 
         return rs
 
+
+class SetMatrixZeroes:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        rows, cols = len(matrix), len(matrix[0])
+        zrows, zcols = set(), set()
+
+        for r in range(rows):
+            for c in range(cols):
+                if matrix[r][c] == 0:
+                    zrows.add(r)
+                    zcols.add(c)
+
+        for r in zrows:
+            for c in range(cols):
+                matrix[r][c] = 0
+
+        for c in zcols:
+            for r in range(rows):
+                matrix[r][c] = 0
+
+
+class HappyNumber:
+    def isHappy(self, n: int) -> bool:
+        def nextNum(c: int) -> int:
+            rs = 0
+            while c:
+                rs += (c % 10) ** 2
+                c //= 10
+            return rs
+
+        s, f = n, n
+        while True:
+            s = nextNum(s)
+            f = nextNum(nextNum(f))
+            if f == 1:
+                return True
+            if s == f:
+                return False
+
