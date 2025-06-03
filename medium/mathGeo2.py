@@ -36,3 +36,20 @@ class RotateImage:
             for j in range(i+1, len(matrix)):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
+
+class SetMatrixZeroes:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        zrows, zcols = set(), set()
+        rows, cols = len(matrix), len(matrix[0])
+
+        for r in range(rows):
+            for c in range(cols):
+                if matrix[r][c] == 0:
+                    zrows.add(r)
+                    zcols.add(c)
+
+        for r in range(rows):
+            for c in range(cols):
+                if r in zrows or c in zcols:
+                    matrix[r][c] = 0
+

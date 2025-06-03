@@ -61,21 +61,18 @@ class SetMatrixZeroes:
                 matrix[r][c] = 0
 
 
-class HappyNumber:
-    def isHappy(self, n: int) -> bool:
-        def nextNum(c: int) -> int:
-            rs = 0
-            while c:
-                rs += (c % 10) ** 2
-                c //= 10
-            return rs
+class PowXN:
+    def myPow(self, x: float, n: int) -> float:
+        def recurse(x: float, n: int) -> float:
+            if x == 0:
+                return 0
+            if n == 0:
+                return 1
 
-        s, f = n, n
-        while True:
-            s = nextNum(s)
-            f = nextNum(nextNum(f))
-            if f == 1:
-                return True
-            if s == f:
-                return False
+            rs = recurse(x, n // 2)
+            rs **= 2
+            return rs if n % 2 == 0 else x * rs
+
+        rs = recurse(x, abs(n))
+        return rs if n >= 0 else 1/rs
 
