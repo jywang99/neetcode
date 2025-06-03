@@ -70,7 +70,7 @@ class PowXN:
                 return 1
 
             rs = recurse(x, n // 2)
-            rs **= 2
+            rs = rs * rs
             return rs if n % 2 == 0 else x * rs
 
         rs = recurse(x, abs(n))
