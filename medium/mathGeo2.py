@@ -53,3 +53,19 @@ class SetMatrixZeroes:
                 if r in zrows or c in zcols:
                     matrix[r][c] = 0
 
+
+class PowXN:
+    def myPow(self, x: float, n: int) -> float:
+        def recurse(x: float, n: int) -> float:
+            if x == 1 or x == 0:
+                return x
+            if n == 0:
+                return 1
+
+            hf = recurse(x, n // 2)
+            rs = hf * hf
+            return rs if n % 2 == 0 else rs * x
+
+        rs = recurse(x, abs(n))
+        return rs if n >= 0 else 1 / rs
+
