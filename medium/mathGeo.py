@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import List
 
 
@@ -97,5 +98,25 @@ class MultiplyStrings:
                 begin = True
             if begin:
                 rs += str(digits[i])
+        return rs
+
+
+class DetectSquares:
+    def __init__(self):
+        self.cnt = defaultdict(int)
+        self.pts = []
+
+    def add(self, point: List[int]) -> None:
+        tp = tuple(point)
+        self.cnt[tp] += 1
+        self.pts.append(tp)
+
+    def count(self, point: List[int]) -> int:
+        rs = 0
+        px, py = point
+        for x, y in self.pts:
+            if abs(px - x) != abs(py - y) or px == x and py == y:
+                continue
+            rs += self.cnt[(x, py)] * self.cnt[(px, y)]
         return rs
 
