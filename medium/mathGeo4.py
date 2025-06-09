@@ -7,7 +7,7 @@ class RotateImage:
         for i in range(len(matrix)):
             for j in range(i+1, len(matrix)):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-
+        
 
 class SpiralOrder:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
@@ -39,59 +39,17 @@ class SpiralOrder:
 
 class SetMatrixZeros:
     def setZeroes(self, matrix: List[List[int]]) -> None:
+        zrows, zcols = set(), set()
         rows, cols = len(matrix), len(matrix[0])
-        rs, cs = set(), set()
+
         for r in range(rows):
             for c in range(cols):
                 if matrix[r][c] == 0:
-                    rs.add(r)
-                    cs.add(c)
+                    zrows.add(r)
+                    zcols.add(c)
 
         for r in range(rows):
             for c in range(cols):
-                if r in rs or c in cs:
+                if r in zrows or c in zcols:
                     matrix[r][c] = 0
-
-
-class PowXN:
-    def myPow(self, x: float, n: int) -> float:
-        def recurse(x: float, n: int) -> float:
-            if x == 0:
-                return 0
-            if n == 0:
-                return 1
-
-            hf = recurse(x, n // 2)
-            rs = hf * hf
-            return rs if n % 2 == 0 else rs * x
-
-        rs = recurse(x, abs(n))
-        return rs if n >= 0 else 1/rs
-
-
-class MultiplyStrings:
-    def multiply(self, num1: str, num2: str) -> str:
-        if num1 == "0" or num2 == "0":
-            return "0"
-
-        rs = [0] * (len(num1) + len(num2))
-        num1, num2 = num1[::-1], num2[::-1]
-
-        for i in range(len(num1)):
-            n1 = int(num1[i])
-            for j in range(len(num2)):
-                n2 = int(num2[j])
-                v = n1 * n2 + rs[i + j]
-                rs[i + j] = v % 10
-                rs[i + j + 1] += v // 10
-
-        rs.reverse()
-        begin = 0
-        for i, n in enumerate(rs):
-            if n > 0:
-                begin = i
-                break
-
-        rs = list(map(str, rs))
-        return "".join(rs[begin:])
 

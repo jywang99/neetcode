@@ -1,4 +1,5 @@
-from typing import List
+from collections import defaultdict
+from typing import List, Tuple
 
 
 class SpiralMatrix:
@@ -92,4 +93,25 @@ class MultiplyStrings:
                 break
 
         return "".join(map(str, digs[begin:]))
+
+
+class DetectSquares:
+    def __init__(self):
+        self.cnt = defaultdict(int)
+        self.pts = []
+
+    def add(self, point: List[int]) -> None:
+        tp = tuple(point)
+        self.cnt[tp] += 1
+        if tp not in self.pts:
+            self.pts.append(tp)
+
+    def count(self, point: List[int]) -> int:
+        px, py = point
+        rs = 0
+        for x, y in self.pts:
+            if abs(x - px) != abs(y - py) or x == px and y == py:
+                continue
+            rs += self.cnt[(x, y)] * self.cnt[(x, py)] * self.cnt[(px, y)]
+        return rs
 
