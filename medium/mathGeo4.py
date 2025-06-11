@@ -53,3 +53,44 @@ class SetMatrixZeros:
                 if r in zrows or c in zcols:
                     matrix[r][c] = 0
 
+
+class PowerXN:
+    def myPow(self, x: float, n: int) -> float:
+        def recurse(x: float, n: int) -> float:
+            if x == 0:
+                return 0
+            if n == 0:
+                return 1
+
+            rs = recurse(x, n // 2)
+            rs *= rs
+            return rs if n % 2 == 0 else rs * x
+
+        rs = recurse(x, abs(n))
+        return rs if n >= 0 else 1/rs
+
+
+class MultiplyStrings:
+    def multiply(self, num1: str, num2: str) -> str:
+        if num1 == "0" or num2 == "0":
+            return "0"
+
+        num1, num2 = num1[::-1], num2[::-1]
+        digs = [0] * (len(num1) + len(num2))
+        for i in range(len(num1)):
+            n1 = int(num1[i])
+            for j in range(len(num2)):
+                n2 = int(num2[j])
+                v = n1 * n2 + digs[i + j]
+                digs[i + j] = v % 10
+                digs[i + j + 1] += v // 10
+        
+        digs.reverse()
+        begin = 0
+        for i, n in enumerate(digs):
+            if n > 0:
+                begin = i
+                break
+        digs = list(map(str, digs))
+        return "".join(digs[begin:])
+
